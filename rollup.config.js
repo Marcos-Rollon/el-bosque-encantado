@@ -7,7 +7,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import css from 'rollup-plugin-css-only';
 // Minify generated bundle
 import { terser } from "rollup-plugin-terser";
-
+import svelte from "rollup-plugin-svelte";
+import preprocess from "svelte-preprocess";
 
 // Check with ENV var if we are building for production (aka npm run build)
 // It does so by checking the "-w" flag in "rollup -c -w"
@@ -45,6 +46,10 @@ export default {
         sourcemap: "inline"
     },
     plugins: [
+        svelte({
+            compilerOptions: { dev: !production},
+            preprocess : preprocess()
+        }),
         // Put the css output in a separate file
         css({ output: "bundle.css" }),
         // The two plugins to load ES6 modules
